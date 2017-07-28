@@ -8,9 +8,11 @@ import (
 	"github.com/fatih/color"
 )
 
-var green = color.New(color.FgGreen)
-var yellow = color.New(color.FgYellow)
-var red = color.New(color.FgRed)
+var (
+	green  = color.New(color.FgGreen)
+	yellow = color.New(color.FgYellow)
+	red    = color.New(color.FgRed)
+)
 
 func queue(file string, uri *url.URL) {
 	semaphore <- nil
