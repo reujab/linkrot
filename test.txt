@@ -1,6 +1,16 @@
-http://google.com/
-https://google.com/
+# DNS lookup error
+https://foobar.google.com/
+
+# 2xx
 https://www.google.com/
 
-https://foobar.google.com/
+# 3xx
+http://google.com/
+http://www.google.com/
+https://google.com/
+
+# 4xx
 https://www.google.com/404
+
+# Doesn't support HTTPS
+http://semver.org/
