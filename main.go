@@ -32,6 +32,8 @@ var client = &http.Client{
 func main() {
 	app := cli.NewApp()
 	app.Usage = "a command-line app that finds broken hyperlinks in files"
+	app.HideHelp = true
+	app.HideVersion = true
 	app.Flags = []cli.Flag{
 		cli.BoolFlag{
 			Name:        "verbose",
@@ -57,13 +59,13 @@ func main() {
 	app.Commands = []cli.Command{
 		{
 			Name:      "scan",
-			Usage:     "Scans files",
+			Usage:     "scans files",
 			UsageText: app.Name + " scan <file...>",
 			Action:    cmdScan,
 		},
 		{
 			Name:      "walk",
-			Usage:     "Walks a directory and checks every file",
+			Usage:     "walks a directory and checks every file",
 			UsageText: app.Name + " walk [directory]",
 			Flags: []cli.Flag{
 				cli.StringSliceFlag{
