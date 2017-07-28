@@ -5,10 +5,14 @@ import (
 	"net/url"
 	"os"
 	"path/filepath"
+	"sync"
 	"unicode"
 
 	"github.com/mvdan/xurls"
 )
+
+var waitgroup = new(sync.WaitGroup)
+var semaphore = make(chan interface{}, 50)
 
 func main() {
 	die(filepath.Walk(".", func(path string, info os.FileInfo, err error) error {
@@ -51,6 +55,7 @@ func main() {
 			for _, match := range urls {
 				uri, err := url.Parse(match)
 				die(err)
+				waitgroup.Add(1)
 				go queue(uri)
 			}
 		}
@@ -58,6 +63,8 @@ func main() {
 
 		return nil
 	}))
+
+	waitgroup.Wait()
 }
 
 func die(err error) {
@@ -67,5 +74,10 @@ func die(err error) {
 }
 
 func queue(uri *url.URL) {
+	semaphore <- nil
+	defer waitgroup.Done()
+
 	// TODO
+
+	<-semaphore
 }
