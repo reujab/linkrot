@@ -12,7 +12,7 @@ import (
 )
 
 var waitgroup = new(sync.WaitGroup)
-var semaphore = make(chan interface{}, 50)
+var semaphore = make(chan interface{}, 5)
 
 func main() {
 	die(filepath.Walk(".", func(path string, info os.FileInfo, err error) error {
