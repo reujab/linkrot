@@ -56,6 +56,12 @@ func main() {
 	}
 	app.Commands = []cli.Command{
 		{
+			Name:      "scan",
+			Usage:     "Scans files",
+			UsageText: app.Name + " scan <file...>",
+			Action:    cmdScan,
+		},
+		{
 			Name:      "walk",
 			Usage:     "Walks a directory and checks every file",
 			UsageText: app.Name + " walk [directory]",
