@@ -44,5 +44,17 @@ func queue(file string, uri *url.URL) {
 		fmt.Printf("%s %s %s\n", file, uri.String(), red.Sprint(res.Status))
 	}
 
+	if !noHTTPS && uri.Scheme != "https" {
+		httpsURI := *uri
+		httpsURI.Scheme = "https"
+		req, err = http.NewRequest("HEAD", httpsURI.String(), nil)
+		die(err)
+		res, err = client.Do(req)
+
+		if err == nil {
+			fmt.Printf("%s %s %s\n", file, uri.String(), red.Sprint("use HTTPS"))
+		}
+	}
+
 	<-semaphore
 }
