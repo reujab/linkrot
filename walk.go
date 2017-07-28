@@ -53,8 +53,7 @@ func cmdWalk(ctx *cli.Context) {
 				}
 			}
 
-			urls := xurls.Strict.FindAllString(line, -1)
-			for _, match := range urls {
+			for _, match := range xurls.Strict.FindAllString(line, -1) {
 				uri, err := url.Parse(match)
 				die(err)
 				waitgroup.Add(1)
