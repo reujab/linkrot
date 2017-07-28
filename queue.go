@@ -14,9 +14,19 @@ var (
 	red    = color.New(color.FgRed)
 )
 
+var checkedURLs []string
+
 func queue(file string, uri *url.URL) {
-	semaphore <- nil
 	defer waitgroup.Done()
+	// return if url has already been checked
+	for _, checkedURL := range checkedURLs {
+		if uri.String() == checkedURL {
+			return
+		}
+	}
+	checkedURLs = append(checkedURLs, uri.String())
+
+	semaphore <- nil
 
 	req, err := http.NewRequest("HEAD", uri.String(), nil)
 	die(err)
