@@ -18,7 +18,7 @@ func queue(file string, uri *url.URL) {
 	semaphore <- nil
 	defer waitgroup.Done()
 
-	req, err := http.NewRequest("GET", uri.String(), nil)
+	req, err := http.NewRequest("HEAD", uri.String(), nil)
 	die(err)
 	res, err := client.Do(req)
 
