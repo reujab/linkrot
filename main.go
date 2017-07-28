@@ -20,9 +20,16 @@ func main() {
 		file, err := os.Open(path)
 		die(err)
 		defer func() { die(file.Close()) }()
+
 		scanner := bufio.NewScanner(file)
 		for scanner.Scan() {
-			// TODO: read line
+			line := scanner.Text()
+
+			// hyperlinks cannot be less than 11 characters
+			// example of a short hyperlink: http://j.tl
+			if len(line) < 11 {
+				continue
+			}
 		}
 
 		return nil
