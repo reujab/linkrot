@@ -2,17 +2,29 @@ package main
 
 import (
 	"bufio"
+	"net/http"
 	"net/url"
 	"os"
 	"path/filepath"
 	"sync"
+	"time"
 	"unicode"
 
 	"github.com/mvdan/xurls"
 )
 
-var waitgroup = new(sync.WaitGroup)
-var semaphore = make(chan interface{}, 5)
+var (
+	waitgroup = new(sync.WaitGroup)
+	semaphore = make(chan interface{}, 5)
+)
+
+var client = &http.Client{
+	Timeout: time.Second * 10,
+	CheckRedirect: func(*http.Request, []*http.Request) error {
+		// don't redirect
+		return http.ErrUseLastResponse
+	},
+}
 
 func main() {
 	die(filepath.Walk(".", func(path string, info os.FileInfo, err error) error {
