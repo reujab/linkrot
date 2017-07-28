@@ -51,7 +51,7 @@ func queue(file string, uri *url.URL) {
 		die(err)
 		res, err = client.Do(req)
 
-		if err == nil {
+		if err == nil && res.StatusCode < 400 {
 			fmt.Printf("%s %s %s\n", file, uri.String(), red.Sprint("use HTTPS"))
 		}
 	}
