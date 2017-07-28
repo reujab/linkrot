@@ -1,3 +1,6 @@
 http://google.com/
 https://google.com/
 https://www.google.com/
+
+https://foobar.google.com/
+https://www.google.com/404
