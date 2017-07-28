@@ -44,6 +44,7 @@ func main() {
 				}
 			}
 		}
+		// don't check scanner.Err() because some lines might be too long
 
 		return nil
 	}))
