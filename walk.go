@@ -5,6 +5,7 @@ import (
 	"net/url"
 	"os"
 	"path/filepath"
+	"regexp"
 	"unicode"
 
 	"github.com/mvdan/xurls"
@@ -17,10 +18,24 @@ func cmdWalk(ctx *cli.Context) {
 		dir = ctx.Args()[0]
 	}
 
+	excludes := make([]*regexp.Regexp, len(ctx.StringSlice("exclude")))
+	for i, exclude := range ctx.StringSlice("exclude") {
+		excludes[i] = regexp.MustCompile(exclude)
+	}
+
 	die(filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {
 		// skip version control
 		if info.Name() == ".git" {
 			return filepath.SkipDir
+		}
+
+		for _, regex := range excludes {
+			if regex.MatchString(path) {
+				if info.IsDir() {
+					return filepath.SkipDir
+				}
+				return nil
+			}
 		}
 
 		if info.IsDir() {
