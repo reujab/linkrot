@@ -36,7 +36,7 @@ func main() {
 	app.HideVersion = true
 	app.Flags = []cli.Flag{
 		cli.BoolFlag{
-			Name:        "verbose",
+			Name:        "verbose, v",
 			Usage:       "print successful requests",
 			Destination: &verbose,
 		},
