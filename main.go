@@ -2,9 +2,12 @@ package main
 
 import (
 	"bufio"
+	"net/url"
 	"os"
 	"path/filepath"
 	"unicode"
+
+	"github.com/mvdan/xurls"
 )
 
 func main() {
@@ -43,6 +46,13 @@ func main() {
 					}
 				}
 			}
+
+			urls := xurls.Strict.FindAllString(line, -1)
+			for _, match := range urls {
+				uri, err := url.Parse(match)
+				die(err)
+				go queue(uri)
+			}
 		}
 		// don't check scanner.Err() because some lines might be too long
 
@@ -54,4 +64,8 @@ func die(err error) {
 	if err != nil {
 		panic(err)
 	}
+}
+
+func queue(uri *url.URL) {
+	// TODO
 }
