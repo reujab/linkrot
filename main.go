@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"os"
 	"path/filepath"
+	"unicode"
 )
 
 func main() {
@@ -29,6 +30,18 @@ func main() {
 			// example of a short hyperlink: http://j.tl
 			if len(line) < 11 {
 				continue
+			}
+
+			// loop through every unicode character to see if the line is mostly binary data
+			var binaryBytes int
+			for _, char := range []rune(line) {
+				if !unicode.IsPrint(char) && !unicode.IsSpace(char) {
+					binaryBytes += len(string(char))
+					if float32(binaryBytes)/float32(len(line)) >= 0.5 {
+						// if a line has more binary bytes than printable bytes, the file is probably binary
+						return nil
+					}
+				}
 			}
 		}
 
