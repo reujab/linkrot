@@ -8,10 +8,16 @@ import (
 	"unicode"
 
 	"github.com/mvdan/xurls"
+	"github.com/urfave/cli"
 )
 
-func walk() {
-	die(filepath.Walk(".", func(path string, info os.FileInfo, err error) error {
+func cmdWalk(ctx *cli.Context) {
+	dir := "."
+	if len(ctx.Args()) != 0 {
+		dir = ctx.Args()[0]
+	}
+
+	die(filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {
 		// skip version control
 		if info.Name() == ".git" {
 			return filepath.SkipDir

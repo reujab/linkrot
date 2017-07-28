@@ -2,8 +2,11 @@ package main
 
 import (
 	"net/http"
+	"os"
 	"sync"
 	"time"
+
+	"github.com/urfave/cli"
 )
 
 var (
@@ -20,7 +23,17 @@ var client = &http.Client{
 }
 
 func main() {
-	walk()
+	app := cli.NewApp()
+	app.Usage = "a command-line app that finds broken hyperlinks in files"
+	app.Commands = []cli.Command{
+		{
+			Name:      "walk",
+			Usage:     "walks a directory and checks every file",
+			UsageText: app.Name + " walk [directory]",
+			Action:    cmdWalk,
+		},
+	}
+	app.Run(os.Args)
 }
 
 func die(err error) {
