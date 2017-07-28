@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"net/url"
 	"os"
 	"path/filepath"
@@ -46,8 +47,10 @@ func cmdWalk(ctx *cli.Context) {
 		die(err)
 		defer func() { die(file.Close()) }()
 
+		var linesScanned int
 		scanner := bufio.NewScanner(file)
 		for scanner.Scan() {
+			linesScanned++
 			line := scanner.Text()
 
 			// hyperlinks cannot be less than 11 characters
@@ -72,7 +75,7 @@ func cmdWalk(ctx *cli.Context) {
 				uri, err := url.Parse(match)
 				die(err)
 				waitgroup.Add(1)
-				go queue(uri)
+				go queue(fmt.Sprintf("%s:%d", path, linesScanned), uri)
 			}
 		}
 		// don't check scanner.Err() because some lines might be too long
