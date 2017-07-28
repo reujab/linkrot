@@ -24,7 +24,8 @@ func main() {
 		for scanner.Scan() {
 			// TODO: read line
 		}
-		return scanner.Err()
+
+		return nil
 	}))
 }
 
