@@ -28,7 +28,7 @@ func main() {
 	app.Commands = []cli.Command{
 		{
 			Name:      "walk",
-			Usage:     "walks a directory and checks every file",
+			Usage:     "Walks a directory and checks every file",
 			UsageText: app.Name + " walk [directory]",
 			Action:    cmdWalk,
 		},
