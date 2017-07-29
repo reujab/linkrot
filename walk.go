@@ -26,7 +26,7 @@ func cmdWalk(ctx *cli.Context) {
 
 	die(filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {
 		// skip version control
-		if info.Name() == ".git" {
+		if info.Name() == ".git" || info.Name() == "node_modules" {
 			return filepath.SkipDir
 		}
 
