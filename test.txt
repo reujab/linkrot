@@ -1,3 +1,6 @@
+# invalid protocol
+ssh://git@github.com:reujab/bronze.git
+
 # DNS lookup error
 https://foobar.google.com/
 

@@ -18,6 +18,12 @@ var checkedURLs []string
 
 func queue(file string, uri *url.URL) {
 	defer waitgroup.Done()
+
+	// return if protocol is not http or https
+	if uri.Scheme != "http" && uri.Scheme != "https" {
+		return
+	}
+
 	// return if url has already been checked
 	for _, checkedURL := range checkedURLs {
 		if uri.String() == checkedURL {
